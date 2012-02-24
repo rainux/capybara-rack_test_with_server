@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "capybara-rack_test_with_server"
   gem.require_paths = ["lib"]
   gem.version       = Capybara::RackTestWithServer::VERSION
+
+  gem.add_runtime_dependency('capybara', ['>= 1.0.0'])
 end
