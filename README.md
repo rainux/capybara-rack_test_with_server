@@ -1,6 +1,6 @@
 # Capybara::RackTestWithServer
 
-TODO: Write a gem description
+RackTest driver for Capybara, with a Rack server started. So you can access the internal API of your application in your tests, with a script which live outside of Rails application, while keep the tests run as fast as lighting with the RackTest driver.
 
 ## Installation
 
@@ -18,7 +18,22 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+For example you want use this driver for all features tagged as `@access_internal_api`, create a `features/support/hooks.rb` file in the root directory of your application, paste the following code to it.
+
+```ruby
+Before('@access_inner_api') do
+  Capybara.current_driver = :rack_test_with_server
+
+  File.open(Rails.root.join('tmp/rack_server_urls.json'), 'w') do |f|
+    urls = {
+      internal_api_path: page.driver.rack_server.url(internal_api_path)
+    }
+    f.puts urls.to_json
+  end
+end
+```
+
+Now you can access your internal API with the url written to `rack_server_urls.json`, in any scripts live outside of Rails application.
 
 ## Contributing
 
